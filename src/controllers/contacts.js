@@ -64,13 +64,15 @@ export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
 
-  const contact = await deleteContact({ contactId, userId });
+  const result = await deleteContact({ contactId, userId });
 
-  if (!contact) {
+  if (!result) {
     return next(createHttpError(404, 'Contact not found'));
   }
 
-  res.status(204).send();
+  res
+    .status(200)
+    .json({ status: 200, message: 'Contact deleted', data: result });
 };
 
 export const patchContactController = async (req, res, next) => {
