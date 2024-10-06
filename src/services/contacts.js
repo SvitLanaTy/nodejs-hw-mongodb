@@ -23,6 +23,8 @@ export const getAllContacts = async ({
     contactQuery.where('contactType').equals(filter.contactType);
   }
 
+  contactQuery.where('userId').equals(userId);
+
   const contactsCount = await Contact.find()
     .merge(contactQuery)
     .countDocuments();
@@ -42,12 +44,16 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async ({ contactId, userId }) => {
-  const contact = await Contact.findById({ _id: contactId, userId });
+  const contact = await Contact.findOne({ _id: contactId, userId });
   return contact;
 };
 
-export const createContact = async (payload) => {
-  const contact = await Contact.create(payload);
+export const createContact = async ({ photo, ...payload }) => {
+  const data = { ...payload };
+  if (photo) {
+    data.photo = photo;
+  }
+  const contact = await Contact.create(data);
   return contact;
 };
 
@@ -65,10 +71,15 @@ export const updateContact = async (
   payload,
   userId,
   options = {},
+  photo,
 ) => {
+  const data = { ...payload };
+  if (photo) {
+    data.photo = photo;
+  }
   const updatedContact = await Contact.findOneAndUpdate(
     { _id: contactId, userId },
-    payload,
+    data,
     {
       new: true,
       runValidators: true,

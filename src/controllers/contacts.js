@@ -9,8 +9,9 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
-import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { env } from '../utils/env.js';
 
 export const getContactsController = async (req, res, next) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -58,7 +59,11 @@ export const createContactController = async (req, res, next) => {
   let photoUrl;
 
   if (photo) {
-    photoUrl = await saveFileToCloudinary(photo);
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   const contact = await createContact({ ...req.body, photo: photoUrl, userId });
@@ -74,13 +79,15 @@ export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
 
-  const contact = await deleteContact({ contactId, userId });
+  const result = await deleteContact({ contactId, userId });
 
-  if (!contact) {
+  if (!result) {
     return next(createHttpError(404, 'Contact not found'));
   }
 
-  res.status(204).send();
+  res
+    .status(200)
+    .json({ status: 200, message: 'Contact deleted', data: result });
 };
 
 export const patchContactController = async (req, res, next) => {
@@ -91,11 +98,15 @@ export const patchContactController = async (req, res, next) => {
   let photoUrl;
 
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   try {
-    const updatedContact = await updateContact(contactId, {
+    const updatedContact = await updateContact({
       contactId,
       userId,
       payload: req.body,
