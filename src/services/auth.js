@@ -106,14 +106,22 @@ export const requestResetToken = async (email) => {
     },
   );
 
-  await sendEmail({
-    from: env(SMTP.SMTP_FROM),
-    to: email,
-    subject: 'Reset your password',
-    html: `<p>Click <a href="${env(
-      'APP_DOMAIN',
-    )}/reset-password?token=${resetToken}">here</a> to reset your password!</p>`,
-  });
+  try {
+    await sendEmail({
+      from: env(SMTP.SMTP_FROM),
+      to: email,
+      subject: 'Reset your password',
+      html: `<p>Click <a href="${env(
+        'APP_DOMAIN',
+      )}/reset-password?token=${resetToken}">here</a> to reset your password!</p>`,
+    });
+  } catch (error) {
+    console.log(error.message);
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };
 
 export const resetPassword = async (payload) => {
