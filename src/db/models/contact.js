@@ -11,7 +11,6 @@ const contactSchema = new mongoose.Schema(
       enum: ['home', 'personal', 'work'],
       required: true,
       default: 'personal',
-      photo: { type: String },
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
