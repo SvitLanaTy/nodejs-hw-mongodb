@@ -1,9 +1,17 @@
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
+import handlebars from 'handlebars';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 
-import { FIFTEEN_MINUTES, ONE_DAY, SMTP } from '../constants/index.js';
+import {
+  FIFTEEN_MINUTES,
+  ONE_DAY,
+  SMTP,
+  TEMPLATES_DIR,
+} from '../constants/index.js';
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
 import { env } from '../utils/env.js';
@@ -106,14 +114,27 @@ export const requestResetToken = async (email) => {
     },
   );
 
+  const resetPasswordTemplatePath = path.join(
+    TEMPLATES_DIR,
+    'reset-password-email.html',
+  );
+
+  const templateSource = (
+    await fs.readFile(resetPasswordTemplatePath)
+  ).toString();
+
+  const template = handlebars.compile(templateSource);
+  const html = template({
+    name: user.name,
+    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+  });
+
   try {
     await sendEmail({
       from: env(SMTP.SMTP_FROM),
       to: email,
       subject: 'Reset your password',
-      html: `<p>Click <a href="${env(
-        'APP_DOMAIN',
-      )}/reset-password?token=${resetToken}">here</a> to reset your password!</p>`,
+      html,
     });
   } catch (error) {
     console.log(error.message);
