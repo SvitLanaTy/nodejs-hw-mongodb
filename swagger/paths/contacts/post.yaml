@@ -13,7 +13,6 @@ requestBody:
         required:
           - name
           - phoneNumber
-          - isFavourite
           - contactType
         properties:
           name:
@@ -48,7 +47,7 @@ requestBody:
             format: binary
 responses:
   '201':
-    description: Creates a contact
+    description: 'Creates a contact'
     content:
       application/json:
         schema:

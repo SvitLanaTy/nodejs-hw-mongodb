@@ -17,7 +17,7 @@ servers:
 
   # - url: #посилання на задеплоєний сайт
 paths:
-  /students:
+  /contacts:
     get:
       $ref: ../swagger/paths/contacts/get.yaml
     post:
