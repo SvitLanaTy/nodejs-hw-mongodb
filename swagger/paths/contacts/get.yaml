@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Get list of contacts
 operationId: getAllContacts
-description: 'Get list of cntacts with this endpoint'
+description: 'Get list of contacts with this endpoint'
 security:
   - bearerAuth: []
 parameters:
@@ -10,8 +10,8 @@ parameters:
     name: page
     schema:
       type: integer
-    example: 1
-    description: 'Page number for pagination, starting from 1'
+      example: 1
+      description: 'Page number for pagination, starting from 1'
   - in: query
     name: perPage
     schema:
@@ -23,7 +23,7 @@ parameters:
     schema:
       type: string
       example: 'name'
-    description: "Sort contacts by this field. Available fields: 'name', 'phoneNumber', 'email', 'isFavourite', 'contactType', 'createdAt', 'updatedAt'"
+    description: "Sort contacts by this field. Available fields: 'name', 'phoneNumber', 'email', 'isFavourite', 'contactType', 'createdAt'"
   - in: query
     name: sortOrder
     schema:
@@ -98,3 +98,5 @@ responses:
                   example: true
   '401':
     $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
