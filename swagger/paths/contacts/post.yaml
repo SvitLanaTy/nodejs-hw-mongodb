@@ -65,20 +65,6 @@ responses:
   '401':
     $ref: '../../components/responses/401.yaml'
   '400':
-    description: 'Bad request'
-    content:
-      application/json:
-        schema:
-          type: object
-          required:
-            - status
-            - message
-          properties:
-            status:
-              type: integer
-              example: 400
-            message:
-              type: string
-              example: 'Errore message'
+    $ref: '../../components/responses/400.yaml'
   '500':
     $ref: '../../components/responses/500.yaml'

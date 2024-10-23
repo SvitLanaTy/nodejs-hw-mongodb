@@ -13,9 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  # - url: https://example.com/api/v1
-
-  # - url: #посилання на задеплоєний сайт
+  - url: https://nodejs-hw-mongodb-swagger-wht9.onrender.com
 paths:
   /contacts:
     get:

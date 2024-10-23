@@ -68,40 +68,8 @@ responses:
   '401':
     $ref: '../../../components/responses/401.yaml'
   '400':
-    description: 'Bad request'
-    content:
-      application/json:
-        schema:
-          type: object
-          required:
-            - status
-            - message
-          properties:
-            status:
-              type: integer
-              example: 400
-            message:
-              type: string
-              example: 'Invalid input data'
+    $ref: '../../../components/responses/400.yaml'
   '404':
-    description: 'Contact not found'
-    content:
-      application/json:
-        schema:
-          type: object
-          required:
-            - status
-            - message
-            - data
-          properties:
-            status:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: 'Contact not found'
-            data:
-              type: object
-              example: {}
+    $ref: '../../../components/responses/404contacts.yaml'
   '500':
     $ref: '../../../components/responses/500.yaml'

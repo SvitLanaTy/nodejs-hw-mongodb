@@ -71,8 +71,8 @@ responses:
                 - perPage
                 - totalItems
                 - totalPages
-                - hasNextPage
                 - hasPreviousPage
+                - hasNextPage
               properties:
                 data:
                   type: array
@@ -90,12 +90,12 @@ responses:
                 totalPages:
                   type: number
                   example: 5
-                hasNextPage:
-                  type: boolean
-                  example: false
                 hasPreviousPage:
                   type: boolean
                   example: true
+                hasNextPage:
+                  type: boolean
+                  example: false
   '401':
     $ref: '../../components/responses/401.yaml'
   '500':

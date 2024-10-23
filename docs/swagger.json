@@ -12,6 +12,9 @@
   "servers": [
     {
       "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://nodejs-hw-mongodb-swagger-wht9.onrender.com"
     }
   ],
   "tags": [
@@ -133,8 +136,8 @@
                         "perPage",
                         "totalItems",
                         "totalPages",
-                        "hasNextPage",
-                        "hasPreviousPage"
+                        "hasPreviousPage",
+                        "hasNextPage"
                       ],
                       "properties": {
                         "data": {
@@ -159,13 +162,13 @@
                           "type": "number",
                           "example": 5
                         },
-                        "hasNextPage": {
-                          "type": "boolean",
-                          "example": false
-                        },
                         "hasPreviousPage": {
                           "type": "boolean",
                           "example": true
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
                         }
                       }
                     }
@@ -277,28 +280,7 @@
             }
           },
           "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 400
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Errore message"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -367,33 +349,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Contact not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 404
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Contact not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {}
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/404contacts"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -457,33 +413,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Contact not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 404
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Contact not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {}
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/404contacts"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -591,60 +521,13 @@
             }
           },
           "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 400
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid input data"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Contact not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 404
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Contact not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {}
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/404contacts"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -717,11 +600,45 @@
             "description": "Link to contact's photo",
             "type": "string",
             "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2024-10-23T13:08:54.242Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-10-23T13:08:54.242Z"
           }
         }
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Errore message"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
@@ -777,6 +694,31 @@
                 "message": {
                   "type": "string",
                   "example": "Something went wrong"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404contacts": {
+        "description": "Contact not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Contact not found"
                 }
               }
             }
