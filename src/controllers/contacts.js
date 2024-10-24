@@ -85,9 +85,7 @@ export const deleteContactController = async (req, res, next) => {
     return next(createHttpError(404, 'Contact not found'));
   }
 
-  res
-    .status(200)
-    .json({ status: 200, message: 'Contact deleted', data: result });
+  res.status(204).send();
 };
 
 export const patchContactController = async (req, res, next) => {
