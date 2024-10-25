@@ -1,0 +1,33 @@
+type: object
+required:
+  - _id
+  - userId
+  - accessToken
+  - refreshToken
+  - accessTokenValidUntil
+  - refreshTokenValidUntil
+properties:
+  _id:
+    description: "Session's unique identifier"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  userId:
+    description: "Session's user ID"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  accessToken:
+    type: string
+    description: "Session's' accessToken"
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  refreshToken:
+    type: string
+    description: "Session's' refreshToken"
+    example: 'dGhpcyByZWZyZXNoVG9rZW4gdXNlZCBmb3IgdGhpcw=='
+  createdAt:
+    format: date-time
+    type: string
+    example: '2024-10-23T13:08:54.242Z'
+  updatedAt:
+    type: string
+    format: date-time
+    example: '2024-10-23T13:08:54.242Z'

@@ -1,0 +1,61 @@
+tags:
+  - Auth
+summary: Login user
+operationId: loginUser
+security:
+  - bearerAuth: []
+description: 'Authenticate user with email and password, then provide access and refresh tokens.'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            format: email
+            description: "Registered user's email"
+            example: 'janedoe@example.com'
+          password:
+            type: string
+            format: password
+            description: "User's password"
+            example: 'securePassword123'
+responses:
+  '200':
+    description: 'User successfully logged in'
+    headers:
+      Set-Cookie:
+        schema:
+          type: string
+          example: 'refreshToken=abcd1234; HttpOnly'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully logged in a user!'
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  description: 'Access token for authenticated requests'
+                  example: 'abcdefghijklmno123456789=='
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

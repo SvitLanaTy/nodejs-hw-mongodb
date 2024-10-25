@@ -1,0 +1,67 @@
+tags:
+  - Auth
+summary: Register new user
+operationId: registerUser
+security:
+  - bearerAuth: []
+description: 'Create a new user with unique email and encrypted password.'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            type: string
+            description: "User's name"
+            example: 'Jane Doe'
+          email:
+            type: string
+            format: email
+            description: 'Unique email address for user login'
+            example: 'janedoe@example.com'
+          password:
+            type: string
+            format: password
+            description: "User's password"
+            example: 'securePassword123'
+responses:
+  '201':
+    description: 'User successfully registered'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Successfully registered a user!'
+            data:
+              $ref: '../../../components/schemas/user.yaml'
+  '409':
+    description: 'Email in use'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: 'Email in use'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
